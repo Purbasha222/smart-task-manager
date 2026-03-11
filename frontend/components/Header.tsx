@@ -1,24 +1,23 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { createHomeStyles } from "@/assets/images/styles/home.styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Header = () => {
   const { colors } = useTheme();
-
   const homeStyles = createHomeStyles(colors);
+  const [username, setUsername] = useState("");
 
-  // let todos;
-
-  // const completedCount = todos
-  //   ? todos.filter((todo) => todo.isCompleted).length
-  //   : 0;
-
-  // const totalCount = todos ? todos.length : 0;
-  // const progressPercentage =
-  //   totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+  useEffect(() => {
+    const getUsername = async () => {
+      const name = await AsyncStorage.getItem("username");
+      if (name) setUsername(name);
+    };
+    getUsername();
+  }, []);
 
   return (
     <View style={homeStyles.header}>
@@ -30,22 +29,10 @@ const Header = () => {
           <Ionicons name="flash-outline" size={24} color="#ffffff" />
         </LinearGradient>
         <View style={homeStyles.titleTextContainer}>
-          <Text style={homeStyles.title}>Today&apos;s Tasks</Text>
-          <Text style={homeStyles.subtitle}></Text>
+          <Text style={homeStyles.title}>NexTask</Text>
+          <Text style={homeStyles.subtitle}>Hello {username}! 👋</Text>
         </View>
       </View>
-
-      {/* <View style={homeStyles.progressContainer}>
-        <View style={homeStyles.progressBarContainer}>
-          <View style={homeStyles.progressBar}>
-            <LinearGradient
-              colors={colors.gradients.success}
-                style={[homeStyles.progressFill, { width: `${progressPercentage}%` }]}
-            />
-          </View>
-          <Text style={homeStyles.progressText}>{Math.round(progressPercentage)}%</Text>
-        </View>
-      </View> */}
     </View>
   );
 };

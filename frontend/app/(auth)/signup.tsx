@@ -75,7 +75,7 @@ const SignupScreen = () => {
         <Text style={styles.title}>Create Account</Text>
 
         <TextInput
-          placeholder="Username"
+          placeholder="Full Name"
           placeholderTextColor="#94a3b8"
           style={styles.input}
           value={username}

@@ -39,8 +39,8 @@ export const createHomeStyles = (colors: ColorScheme) => {
       marginRight: 16,
     },
     titleTextContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: "column",
+      // alignItems: "center",
     },
     title: {
       fontSize: 32,
@@ -50,6 +50,7 @@ export const createHomeStyles = (colors: ColorScheme) => {
       color: colors.text,
     },
     subtitle: {
+      marginBottom: 10,
       fontSize: 17,
       fontWeight: "500",
       color: colors.textMuted,
@@ -111,13 +112,17 @@ export const createHomeStyles = (colors: ColorScheme) => {
       borderColor: colors.primary,
     },
     addButton: {
-      width: 56,
-      height: 56,
-      borderRadius: 28,
-      justifyContent: "center",
-      alignItems: "center",
+      // width: 56,
+      // height: 56,
+      borderRadius: "50%",
+      overflow: "hidden",
+      // justifyContent: "center",
+      // alignItems: "center",
       marginLeft: 300,
-      marginTop: 20,
+      marginTop: 10,
+      position: "absolute",
+      bottom: 30,
+      // backgroundColor: "green",
     },
     addButtonDisabled: {
       opacity: 0.5,
@@ -169,7 +174,7 @@ export const createHomeStyles = (colors: ColorScheme) => {
       fontSize: 17,
       lineHeight: 24,
       fontWeight: "500",
-      marginBottom: 16,
+      marginBottom: 5,
       color: colors.text,
     },
     todoActions: {

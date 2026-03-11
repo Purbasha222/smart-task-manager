@@ -24,7 +24,6 @@ export default function Index() {
     );
   }
 
-  // 🚦 Redirect based on auth
   if (!isLoggedIn) {
     return <Redirect href="/(auth)/signup" />;
   }

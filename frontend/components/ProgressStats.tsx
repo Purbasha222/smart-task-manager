@@ -117,15 +117,147 @@
 
 // export default ProgressStats;
 
+// import { View, Text } from "react-native";
+// import React, { useEffect, useState } from "react";
+// import { useTheme } from "@/hooks/useTheme";
+// import { createSettingsStyles } from "@/assets/images/styles/settings.styles";
+// import { getTasks } from "@/api/taskAPI";
+// import LoadingSpinner from "./LoadingSpinner";
+// import { LinearGradient } from "expo-linear-gradient";
+// import * as Progress from "react-native-progress";
+// import { createHomeStyles } from "@/assets/images/styles/home.styles";
+
+// interface Task {
+//   tasks: Task[];
+// }
+
+// const ProgressStats = ({ tasks }) => {
+//   const { colors } = useTheme();
+//   const homeStyles = createHomeStyles(colors);
+
+//   const [tasks, setTasks] = useState<Task[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchTasks = async () => {
+//       try {
+//         const response = await getTasks();
+
+//         // adjust if your backend structure differs
+//         const fetchedTasks = response.data.data ?? response.data;
+
+//         setTasks(fetchedTasks);
+//       } catch (error) {
+//         console.log("Error fetching tasks:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchTasks();
+//   }, []);
+
+//   if (loading) {
+//     return <LoadingSpinner />;
+//   }
+
+//   // TASK STATS
+//   const totalTasks = tasks.length;
+//   const completedTasks = tasks.filter((task) => task.isCompleted).length;
+//   const activeTasks = totalTasks - completedTasks;
+
+//   const completionRate = totalTasks ? completedTasks / totalTasks : 0;
+//   const activeRate = totalTasks ? activeTasks / totalTasks : 0;
+
+//   return (
+//     <LinearGradient
+//       colors={colors.gradients.surface}
+//       style={{
+//         backgroundColor: "green",
+//         marginHorizontal: 20,
+//         marginBottom: 20,
+//         borderRadius: 20,
+//         shadowColor: "#000",
+//         shadowOffset: {
+//           width: 0,
+//           height: 4,
+//         },
+//         shadowOpacity: 0.1,
+//         shadowRadius: 8,
+//         elevation: 8,
+//       }}
+//     >
+//       {/* <Text style={homeStyles.progressText}>Progress Stats</Text> */}
+
+//       {/* HORIZONTAL CIRCLE STATS */}
+//       <View
+//         style={{
+//           flexDirection: "row",
+//           justifyContent: "space-around",
+//           padding: 20,
+//         }}
+//       >
+//         {/* TOTAL TASKS */}
+//         <View style={{ alignItems: "center" }}>
+//           <Progress.Circle
+//             size={75}
+//             progress={1}
+//             thickness={7}
+//             color={colors.primary}
+//             unfilledColor="#2a2a2a"
+//             borderWidth={0}
+//             showsText
+//             animated
+//             formatText={() => totalTasks.toString()}
+//           />
+//           <Text style={{ marginTop: 8, color: colors.text }}>Total</Text>
+//         </View>
+
+//         {/* COMPLETED TASKS */}
+//         <View style={{ alignItems: "center" }}>
+//           <Progress.Circle
+//             size={75}
+//             progress={completionRate}
+//             thickness={7}
+//             color={colors.success}
+//             unfilledColor="#2a2a2a"
+//             borderWidth={0}
+//             showsText
+//             animated
+//             formatText={() => completedTasks.toString()}
+//           />
+//           <Text style={{ marginTop: 8, color: colors.text }}>Completed</Text>
+//         </View>
+
+//         {/* ACTIVE TASKS */}
+//         <View style={{ alignItems: "center" }}>
+//           <Progress.Circle
+//             size={75}
+//             progress={activeRate}
+//             thickness={7}
+//             color={colors.warning}
+//             unfilledColor="#2a2a2a"
+//             borderWidth={0}
+//             showsText
+//             animated
+//             formatText={() => activeTasks.toString()}
+//           />
+//           <Text style={{ marginTop: 8, color: colors.text }}>Active</Text>
+//         </View>
+//       </View>
+//     </LinearGradient>
+//   );
+// };
+
+// export default ProgressStats;
+
+// claude
+
 import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTheme } from "@/hooks/useTheme";
-import { createSettingsStyles } from "@/assets/images/styles/settings.styles";
-import { getTasks } from "@/api/taskAPI";
-import LoadingSpinner from "./LoadingSpinner";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Progress from "react-native-progress";
-import { createHomeStyles } from "@/assets/images/styles/home.styles";
 
 interface Task {
   _id: string;
@@ -133,41 +265,16 @@ interface Task {
   isCompleted: boolean;
 }
 
-const ProgressStats = () => {
+interface Props {
+  tasks: Task[];
+}
+
+const ProgressStats = ({ tasks }: Props) => {
   const { colors } = useTheme();
-  const homeStyles = createHomeStyles(colors);
 
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await getTasks();
-
-        // adjust if your backend structure differs
-        const fetchedTasks = response.data.data ?? response.data;
-
-        setTasks(fetchedTasks);
-      } catch (error) {
-        console.log("Error fetching tasks:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
-  }, []);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  // TASK STATS
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.isCompleted).length;
   const activeTasks = totalTasks - completedTasks;
-
   const completionRate = totalTasks ? completedTasks / totalTasks : 0;
   const activeRate = totalTasks ? activeTasks / totalTasks : 0;
 
@@ -175,23 +282,16 @@ const ProgressStats = () => {
     <LinearGradient
       colors={colors.gradients.surface}
       style={{
-        backgroundColor: "green",
         marginHorizontal: 20,
         marginBottom: 20,
         borderRadius: 20,
         shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
         elevation: 8,
       }}
     >
-      {/* <Text style={homeStyles.progressText}>Progress Stats</Text> */}
-
-      {/* HORIZONTAL CIRCLE STATS */}
       <View
         style={{
           flexDirection: "row",
@@ -204,15 +304,29 @@ const ProgressStats = () => {
           <Progress.Circle
             size={75}
             progress={1}
-            thickness={7}
+            thickness={15}
             color={colors.primary}
             unfilledColor="#2a2a2a"
             borderWidth={0}
             showsText
             animated
             formatText={() => totalTasks.toString()}
+            textStyle={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: colors.primary,
+            }}
           />
-          <Text style={{ marginTop: 8, color: colors.text }}>Total</Text>
+          <Text
+            style={{
+              marginTop: 8,
+              color: colors.text,
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+          >
+            Total
+          </Text>
         </View>
 
         {/* COMPLETED TASKS */}
@@ -220,15 +334,29 @@ const ProgressStats = () => {
           <Progress.Circle
             size={75}
             progress={completionRate}
-            thickness={7}
+            thickness={15}
             color={colors.success}
             unfilledColor="#2a2a2a"
             borderWidth={0}
             showsText
             animated
             formatText={() => completedTasks.toString()}
+            textStyle={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: colors.success,
+            }}
           />
-          <Text style={{ marginTop: 8, color: colors.text }}>Completed</Text>
+          <Text
+            style={{
+              marginTop: 8,
+              color: colors.text,
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+          >
+            Completed
+          </Text>
         </View>
 
         {/* ACTIVE TASKS */}
@@ -236,15 +364,29 @@ const ProgressStats = () => {
           <Progress.Circle
             size={75}
             progress={activeRate}
-            thickness={7}
+            thickness={15}
             color={colors.warning}
             unfilledColor="#2a2a2a"
             borderWidth={0}
             showsText
             animated
             formatText={() => activeTasks.toString()}
+            textStyle={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: colors.warning,
+            }}
           />
-          <Text style={{ marginTop: 8, color: colors.text }}>Active</Text>
+          <Text
+            style={{
+              marginTop: 8,
+              color: colors.text,
+              fontSize: 15,
+              fontWeight: 600,
+            }}
+          >
+            Active
+          </Text>
         </View>
       </View>
     </LinearGradient>

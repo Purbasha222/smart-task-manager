@@ -2,8 +2,10 @@ import { View, TextInput, TouchableOpacity, Text, Alert } from "react-native";
 import React, { useState } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { updateTask } from "@/api/taskAPI";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function EditTask() {
+  const { colors } = useTheme();
   const { id, title, description } = useLocalSearchParams();
 
   const [newTitle, setNewTitle] = useState(title as string);
@@ -29,17 +31,27 @@ export default function EditTask() {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", padding: 20, gap: 20 }}>
+      <Text
+        style={{
+          fontSize: 22,
+          fontWeight: "bold",
+          color: colors.text,
+          textAlign: "center",
+        }}
+      >
+        Edit Task
+      </Text>
       <TextInput
         value={newTitle}
         onChangeText={setNewTitle}
-        placeholder="Title"
+        placeholder="Edit Title"
         style={{ borderWidth: 1, padding: 10, borderRadius: 10 }}
       />
 
       <TextInput
         value={newDescription}
         onChangeText={setNewDescription}
-        placeholder="Description"
+        placeholder="Edit Description"
         multiline
         style={{ borderWidth: 1, padding: 10, borderRadius: 10, height: 100 }}
       />

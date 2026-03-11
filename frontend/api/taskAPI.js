@@ -22,3 +22,10 @@ export const deleteTask = async (id) => {
 export const updateTask = async (id, data) => {
   return API.put(`/tasks/update/${id}`, data);
 };
+
+// TOGGLE TASK
+
+// ADD this new function
+export const toggleTask = async (id) => {
+  return API.patch(`/tasks/toggle/${id}`);
+};

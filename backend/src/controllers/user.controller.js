@@ -36,5 +36,5 @@ export const login = asyncHandler(async (req, res) => {
 
   const token = jwt.sign({ id: user._id }, "secretkey123", { expiresIn: "7d" });
 
-  res.json({ message: "Login successful", token });
+  res.json({ message: "Login successful", token, username: user.username });
 });
