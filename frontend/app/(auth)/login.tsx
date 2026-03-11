@@ -54,11 +54,14 @@ const LoginScreen = () => {
     }
 
     try {
-      const res = await fetch("http://10.19.118.29:8000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://smart-task-manager-tcyz.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        },
+      );
 
       const data = await res.json();
       console.log("hello", data);

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://10.19.118.29:8000/api",
+  baseURL: "https://smart-task-manager-tcyz.onrender.com/api",
 });
 
 API.interceptors.request.use(

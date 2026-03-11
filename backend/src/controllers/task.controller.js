@@ -19,6 +19,7 @@ export const createTask = asyncHandler(async (req, res) => {
   const task = await Task.create({
     title,
     description,
+    userId: req.userId,
   });
 
   return res.status(201).json({
@@ -43,7 +44,7 @@ export const getTasks = asyncHandler(async (req, res) => {
   if (sort === "asc") sortOption.createdAt = 1;
   else sortOption.createdAt = -1;
 
-  const tasks = await Task.find(query).sort(sortOption);
+  const tasks = await Task.find({ userId: req.userId }).sort(sortOption);
 
   return res.status(201).json({
     success: true,
