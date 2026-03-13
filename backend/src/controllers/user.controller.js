@@ -26,15 +26,17 @@ export const login = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return res.json({ message: "User not found" });
+    return res.status(404).json({ message: "User not found" });
   }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    return res.json({ message: "Invalid credentials" });
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 
   const token = jwt.sign({ id: user._id }, "secretkey123", { expiresIn: "7d" });
 
-  res.json({ message: "Login successful", token, username: user.username });
+  res
+    .status(200)
+    .json({ message: "Login successful", token, username: user.username });
 });

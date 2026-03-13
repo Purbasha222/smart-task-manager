@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContext = createContext({
   token: null,
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (newToken: string) => {
     try {
-      await SecureStore.setItemAsync("token", newToken);
+      await AsyncStorage.setItem("token", newToken);
       setToken(newToken);
     } catch (error) {
       console.log("Error saving token:", error);
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await SecureStore.deleteItemAsync("token");
+      await AsyncStorage.removeItem("token");
       setToken(null);
     } catch (error) {
       console.log("Error deleting token:", error);
@@ -35,8 +35,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadToken = async () => {
       try {
-        const storedToken = await SecureStore.getItemAsync("token");
-
+        const storedToken = await AsyncStorage.getItem("token");
         if (storedToken) {
           setToken(storedToken);
         }
@@ -50,19 +49,10 @@ export const AuthProvider = ({ children }) => {
     loadToken();
   }, []);
 
-  if (loading) {
-    return null;
-  }
+  if (loading) return null;
 
   return (
-    <AuthContext.Provider
-      value={{
-        token,
-        isAuthenticated,
-        login,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ token, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

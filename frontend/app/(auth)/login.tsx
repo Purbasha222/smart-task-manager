@@ -72,12 +72,20 @@ const LoginScreen = () => {
         return;
       }
 
+      if (!data.token) {
+        Alert.alert("Login Failed", "No token received");
+        return;
+      }
+
       console.log("JWT Token:", data.token);
 
       console.log("working");
 
       await AsyncStorage.setItem("token", data.token);
       await AsyncStorage.setItem("username", data.username);
+
+      const saved = await AsyncStorage.getItem("token");
+      console.log("Saved token:", saved);
 
       await login(data.token);
       router.replace("/(tabs)");

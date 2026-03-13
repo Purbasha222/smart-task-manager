@@ -9,6 +9,9 @@ API.interceptors.request.use(
   async (config) => {
     try {
       const token = await AsyncStorage.getItem("token");
+      console.log("=== API INTERCEPTOR ===");
+      console.log("Token found:", token);
+      console.log("Request URL:", config.url);
 
       console.log("Stored Token:", token);
 

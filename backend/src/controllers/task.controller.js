@@ -65,7 +65,7 @@ export const getTaskByID = asyncHandler(async (req, res) => {
     });
   }
 
-  const task = await Task.findById(id);
+  const task = await Task.findOne({ _id: id, userId: req.userId });
 
   // if task not found
   if (!task) {
@@ -104,8 +104,8 @@ export const updateTask = asyncHandler(async (req, res) => {
   }
 
   // Find and update task
-  const task = await Task.findByIdAndUpdate(
-    id,
+  const task = await Task.findOneAndUpdate(
+    { _id: id, userId: req.userId },
     { title, description },
     { new: true, runValidators: true },
   );
@@ -139,7 +139,7 @@ export const toggleTask = asyncHandler(async (req, res) => {
     });
   }
 
-  const task = await Task.findById(id);
+  const task = await Task.findOne({ _id: id, userId: req.userId });
 
   // if task not found
   if (!task) {
@@ -175,7 +175,7 @@ export const deleteTask = asyncHandler(async (req, res) => {
   }
 
   // Delete Task
-  const task = await Task.findByIdAndDelete(id);
+  const task = await Task.findOneAndDelete({ _id: id, userId: req.userId });
 
   // if task not found
   if (!task) {

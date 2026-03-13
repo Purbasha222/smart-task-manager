@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // ← swapped
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 
@@ -9,7 +9,7 @@ export default function Index() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = await SecureStore.getItemAsync("token");
+      const token = await AsyncStorage.getItem("token"); // ← swapped
       setIsLoggedIn(!!token);
       setLoading(false);
     };
